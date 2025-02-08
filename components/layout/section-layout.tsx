@@ -9,7 +9,13 @@ const SectionLayout = ({
   ...props
 }: SectionLayoutProps) => {
   return (
-    <section className={cn('min-h-screen p-32 xl:px-60', className)} {...props}>
+    <section
+      className={cn(
+        'min-h-screen p-5 max-md:py-32 md:p-32 xl:px-60',
+        className
+      )}
+      {...props}
+    >
       {children}
     </section>
   );

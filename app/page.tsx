@@ -49,8 +49,8 @@ export default function Home() {
       <SectionLayout className={'bg-white'}>
         <div className='flex flex-col'>
           <div className='mb-32 flex flex-col gap-5 text-black'>
-            <h2 className={'text-2xl'}>Our Mission</h2>
-            <h3 className={'text-[2.5rem] leading-[110%]'}>
+            <h2 className={'text-lg md:text-2xl'}>Our Mission</h2>
+            <h3 className={'text-2xl leading-[110%] md:text-[2.4rem]'}>
               Create a generalized brain interface to restore autonomy to those
               with unmet medical needs today and unlock human potential
               tomorrow.

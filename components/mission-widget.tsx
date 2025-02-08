@@ -14,8 +14,6 @@ const MissionWidget = ({}: MissionWidgetProps) => {
 
   const mission = missions?.find((mission) => mission.id === selected);
 
-  console.log(mission?.media, selected);
-
   return (
     <MotionConfig
       transition={{

@@ -1,12 +1,14 @@
 'use client';
 
 import Link from 'next/link';
-import { mainLinks } from '@/constants/links';
+import { mainLinks, secondLinks } from '@/constants/links';
 import Button from '@/components/ui/button';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/dist/ScrollTrigger';
 import { useEffect, useState } from 'react';
 import { cn } from '@/utils';
+import CustomLink from '@/components/ui/custom-link';
+import { AnimatePresence, motion } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -14,17 +16,24 @@ type HeaderProps = {};
 
 const Header = ({}: HeaderProps) => {
   const [active, setActive] = useState<boolean>(false);
+  const [direction, setDirection] = useState<'up' | 'down' | 'none'>();
 
   useEffect(() => {
+    let lastScrollY = window.scrollY;
+
     ScrollTrigger.create({
       start: 'top top',
       end: 'bottom bottom',
       onUpdate: (self) => {
-        if (self.scroll() > 350) {
+        const scrollY = self.scroll();
+        const direction = scrollY > lastScrollY ? 'down' : 'up';
+        lastScrollY = scrollY;
+        if (scrollY > 350) {
           setActive(true);
         } else {
           setActive(false);
         }
+        setDirection(direction);
       },
     });
 
@@ -36,11 +45,16 @@ const Header = ({}: HeaderProps) => {
   return (
     <div
       className={cn(
-        'fixed top-0 z-50 w-full px-3.5 transition-all',
+        'fixed top-0 z-[999] w-full transition-all',
         active && 'bg-white'
       )}
     >
-      <div className='flex h-14 items-center justify-between'>
+      <div
+        className={cn(
+          'flex h-14 items-center justify-between px-3.5',
+          active && 'border-b border-solid border-gray-200'
+        )}
+      >
         <Link href={'/'}>
           <svg
             width='56'
@@ -61,13 +75,16 @@ const Header = ({}: HeaderProps) => {
         <div className='flex items-center gap-6'>
           {mainLinks.map((link, index) => {
             return (
-              <Link
-                className={cn('text-lg text-white', active && 'text-black')}
+              <CustomLink
+                className={cn(
+                  'text-lg text-white after:bg-white',
+                  active && 'text-black'
+                )}
                 key={`link-${index}`}
                 href={link?.href}
               >
                 {link?.name}
-              </Link>
+              </CustomLink>
             );
           })}
           <Button
@@ -83,6 +100,37 @@ const Header = ({}: HeaderProps) => {
           </Button>
         </div>
       </div>
+      <AnimatePresence mode={'popLayout'}>
+        {direction === 'up' && active && (
+          <motion.div
+            animate={{
+              opacity: 1,
+              y: 0,
+            }}
+            exit={{
+              opacity: 0,
+              y: -25,
+            }}
+            initial={{
+              opacity: 0,
+              y: -25,
+            }}
+            className='z-50 mx-auto flex items-center justify-center gap-4 border-b border-solid border-gray-200 bg-white p-4'
+          >
+            {secondLinks?.map((link) => {
+              return (
+                <CustomLink
+                  className={'text-lg'}
+                  key={`link-${link.url}`}
+                  href={link.url}
+                >
+                  {link?.title}
+                </CustomLink>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 };
