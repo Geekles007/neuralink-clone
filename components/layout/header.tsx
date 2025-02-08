@@ -12,9 +12,9 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 gsap.registerPlugin(ScrollTrigger);
 
-type HeaderProps = {};
+// type HeaderProps = {};
 
-const Header = ({}: HeaderProps) => {
+const Header = () => {
   const [active, setActive] = useState<boolean>(false);
   const [direction, setDirection] = useState<'up' | 'down' | 'none'>();
 
