@@ -7,9 +7,9 @@ import Image from 'next/image';
 import SelectButton from '@/components/select-button';
 import { MotionConfig } from 'framer-motion';
 
-type MissionWidgetProps = {};
+// type MissionWidgetProps = {};
 
-const MissionWidget = ({}: MissionWidgetProps) => {
+const MissionWidget = () => {
   const [selected, setSelected] = useState<number>(1);
 
   const mission = missions?.find((mission) => mission.id === selected);
